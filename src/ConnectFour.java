@@ -36,6 +36,7 @@ public class ConnectFour {
                 break;
             }
 
+            //Gets correct input from user
             int correctInput = 0;
             while(correctInput == 0) {
                 System.out.println("Player \"" + board.currentPlayer() + "\", choose your column:");
@@ -77,6 +78,7 @@ class Board {
 
     //Error Codes
     // 0 - Correct, 1 - Spot taken, 2 - Invalid Range
+    //Returns these codes to send error message to player
     public int move(int c, int r) {
         if(r == -2)
             return 2;
@@ -96,6 +98,7 @@ class Board {
         }
     }
 
+    //When given a column, finds an open row spot
     public int findRow(int c) {
         //Returns -2 if out of bounds
         if(c > 6 || c < 0)
@@ -114,7 +117,7 @@ class Board {
         return "X";
     }
 
-    //Runs opposite
+    //Runs opposite of current player as it is updated before win is checked
     public String currentWinner() {
         if(count == 1) {
             return "O";
@@ -122,6 +125,7 @@ class Board {
         return "X";
     }
 
+    //Checks if a user has won the game
     public boolean checkWin() {
         //Checks horizontal
         for(int i = 0; i < boxes.length; i++) {
@@ -170,7 +174,6 @@ class Board {
                 }
             }
         }
-
         return false;
     }
 
