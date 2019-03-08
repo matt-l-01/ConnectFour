@@ -1,3 +1,4 @@
+//Matt Love and Bradley Depippo
 import java.util.Scanner;
 
 public class ConnectFour {
@@ -11,9 +12,9 @@ public class ConnectFour {
         scan = new Scanner(System.in);
     }
 
-    // 0 - Correct, 1 - Spot taken, 2 - Invalid Range
+    //Method that runs the actual program
     public void run() {
-        System.out.println("Welcome to TicTacToe! Get ready to play...");
+        System.out.println("Welcome to Connect Four! Get ready to play...");
         while(s == GameState.RUNNING) {
             if(board.checkWin()) {
                 System.out.println("-----------------------------------");
@@ -44,7 +45,7 @@ public class ConnectFour {
                     correctInput = 1;
                 } else if (board.move(colm, board.findRow(colm)) == 1) {
                     System.out.println("-----------------------------------");
-                    System.out.println("That spot is already taken, try again!");
+                    System.out.println("That column is filled up, try again!");
                     System.out.println("-----------------------------------");
                 } else {
                     System.out.println("-----------------------------------");
@@ -96,6 +97,7 @@ class Board {
     }
 
     public int findRow(int c) {
+        //Returns -2 if out of bounds
         if(c > 6 || c < 0)
             return -2;
 
@@ -123,7 +125,7 @@ class Board {
     public boolean checkWin() {
         //Checks horizontal
         for(int i = 0; i < boxes.length; i++) {
-            for(int j = 0; j < boxes[i].length-4; j++) {
+            for(int j = 0; j < boxes[i].length - 3; j++) {
                 if(boxes[i][j].getBoxType() == boxes[i][j+1].getBoxType()
                         && boxes[i][j+1].getBoxType() == boxes[i][j+2].getBoxType()
                         && boxes[i][j+2].getBoxType() == boxes[i][j+3].getBoxType()
@@ -135,7 +137,7 @@ class Board {
 
         //Checks vertical
         for(int i = 0; i < boxes[0].length; i++) {
-            for(int j = 0; j < boxes.length-3; j++) {
+            for(int j = 0; j < boxes.length - 3; j++) {
                 if(boxes[j][i].getBoxType() == boxes[j+1][i].getBoxType()
                         && boxes[j+1][i].getBoxType() == boxes[j+2][i].getBoxType()
                         && boxes[j+2][i].getBoxType() == boxes[j+3][i].getBoxType()
@@ -144,6 +146,31 @@ class Board {
                 }
             }
         }
+
+        //Checks diagonal: L to R
+        for (int i = boxes.length - 1; i >= 3; i--) {
+            for (int j = 0; j <= 3; j++) {
+                if (boxes[i][j].getBoxType() == boxes[i-1][j+1].getBoxType()
+                        && boxes[i-1][j+1].getBoxType() == boxes[i-2][j+2].getBoxType()
+                        && boxes[i-2][j+2].getBoxType() == boxes[i-3][j+3].getBoxType()
+                        && boxes[i][j].getBoxType() != BoxType.NONE) {
+                    return true;
+                }
+            }
+        }
+
+        //Checks diagonal: R to L
+        for (int i = boxes.length - 1; i >= 3; i--) {
+            for (int j = 3; j <= boxes[i].length - 1; j++) {
+                if (boxes[i][j].getBoxType() == boxes[i-1][j-1].getBoxType()
+                        && boxes[i-1][j-1].getBoxType() == boxes[i-2][j-2].getBoxType()
+                        && boxes[i-2][j-2].getBoxType() == boxes[i-3][j-3].getBoxType()
+                        && boxes[i][j].getBoxType() != BoxType.NONE) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
